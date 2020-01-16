@@ -23,5 +23,9 @@ dependencies {
 ### Step 3. init
 在Application的onCreate里初始化
 ```
-
+@Override
+public void onCreate() {
+    super.onCreate();
+    Utils.init(this);
+}
 ```
