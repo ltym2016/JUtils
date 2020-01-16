@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import com.samluys.jutils.ScreenUtils;
 import com.samluys.jutils.ToastUtils;
+import com.samluys.statusbar.StatusBarUtils;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,5 +16,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ToastUtils.showLong("屏幕宽度 " + ScreenUtils.getScreenWidth(this));
+
+        StatusBarUtils.transparencyBar(this);
     }
 }
