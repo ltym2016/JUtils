@@ -18,3 +18,10 @@ dependencies {
 	  implementation 'com.github.ltym2016:JUtils:1.0.0'
 }
 ```
+
+
+### Step 3. init
+在Application的onCreate里初始化
+```
+
+```
