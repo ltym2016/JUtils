@@ -2,7 +2,9 @@ package com.samluys.jutils;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Handler;
@@ -15,6 +17,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.UnknownHostException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -35,6 +38,7 @@ public final class Utils {
     private static final ExecutorService UTIL_POOL = Executors.newFixedThreadPool(3);
     @SuppressLint("StaticFieldLeak")
     private static Context context;
+    private static Boolean isDebug = null;
 
     private Utils() {
         throw new UnsupportedOperationException("u can't instantiate me...");
@@ -47,6 +51,7 @@ public final class Utils {
      */
     public static void init(@NonNull final Context context) {
         Utils.context = context.getApplicationContext();
+        syncIsDebug(context);
     }
 
     /**
@@ -59,6 +64,31 @@ public final class Utils {
             return context;
         }
         throw new NullPointerException("should be initialized in application");
+    }
+
+    public static boolean isDebug() {
+        return isDebug != null && isDebug.booleanValue();
+    }
+
+    private static void syncIsDebug(Context context) {
+        if (isDebug == null) {
+            isDebug = context.getApplicationInfo() != null
+                    && (context.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
+        }
+    }
+
+    public static boolean isAppForeground() {
+        ActivityManager am =
+                (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        //noinspection ConstantConditions
+        List<ActivityManager.RunningAppProcessInfo> info = am.getRunningAppProcesses();
+        if (info == null || info.size() == 0) return false;
+        for (ActivityManager.RunningAppProcessInfo aInfo : info) {
+            if (aInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+                return aInfo.processName.equals(context.getPackageName());
+            }
+        }
+        return false;
     }
 
     /**
