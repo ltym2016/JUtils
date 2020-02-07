@@ -18,5 +18,6 @@ public class MainActivity extends AppCompatActivity {
         ToastUtils.showLong("屏幕宽度 " + ScreenUtils.getScreenWidth(this));
 
         StatusBarUtils.transparencyBar(this);
+
     }
 }
