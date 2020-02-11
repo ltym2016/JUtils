@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ToastUtils.showLong("屏幕宽度 " + ScreenUtils.getScreenWidth(this));
+        ToastUtils.showLong("屏幕宽度 " + ScreenUtils.getScreenWidth() + " 屏幕高度 " + ScreenUtils.getScreenHeight());
 
         StatusBarUtils.transparencyBar(this);
 
